@@ -9,6 +9,7 @@ MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=hnb/}
 MAINTAINER=	pkgsrc-users@NetBSD.org
 HOMEPAGE=	http://hnb.sourceforge.net/
 COMMENT=	Hierarchical data organizer
+LICENSE=	gnu-gpl-v1
 
 USE_TOOLS+=		gmake
 

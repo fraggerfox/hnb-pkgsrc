@@ -8,15 +8,6 @@ This prevents the segfault on startup in amd64 systems.
 
 --- src/file_hnb.c.orig	2003-03-14 00:37:13.000000000 +0000
 +++ src/file_hnb.c
-@@ -80,7 +80,7 @@ static void hnb_export_nodes (FILE * fil
- 				free(quoted);
- 			}
- 			att=att->next;
--		 }		 
-+		 }
- 		}
- 
- 
 @@ -105,7 +105,7 @@ static void hnb_export_nodes (FILE * fil
  	}
  }
@@ -67,15 +58,6 @@ This prevents the segfault on startup in amd64 systems.
  		}
  		if (in_tree) {
  			if (type == t_tag && !strcmp (rdata, "node")) {
-@@ -205,7 +205,7 @@ static int import_hnb (int argc, char **
- 
- 				free(att_name);
- 				continue;
--			}				
-+			}
- 			if ( (type == t_endtag || type == t_closeemptytag) && !strcmp(rdata,"node")){
- 				in_nodetag=0;
- 				continue;
 @@ -263,7 +263,7 @@ static int import_hnb (int argc, char **
  
  	xml_tok_cleanup (s);

@@ -1,22 +1,14 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
 --- src/tree_sort.c.orig	2003-03-14 00:12:44.000000000 +0000
 +++ src/tree_sort.c
-@@ -112,7 +112,7 @@ static Node *merge (Node *nodeA, Node *n
- 	return thead;
- }
- 
--/* 
-+/*
- */
- static Node *node_mergesort (Node *head, int size, int (*cmp) (Node *a, Node *b))
- {
 @@ -141,7 +141,7 @@ static int cmp_descending(Node *a,Node *
  	return cmp_todo(b,a);
  }

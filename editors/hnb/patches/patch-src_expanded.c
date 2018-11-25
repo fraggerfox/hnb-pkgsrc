@@ -1,8 +1,9 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
@@ -29,7 +30,7 @@ This prevents the segfault on startup in amd64 systems.
  {
  	Node *pos = (Node *) data;
  	if(argc==1){
-@@ -36,7 +38,7 @@ static int cmd_expand (int argc,char **a
+@@ -36,7 +36,7 @@
  				inputbuf[strlen (inputbuf) + 1] = 0;
  				inputbuf[strlen (inputbuf)] = lastbinding->key;
  			}
@@ -38,7 +39,7 @@ This prevents the segfault on startup in amd64 systems.
  		}
  		node_setflag(pos,F_expanded,1);
  	} else if((!strcmp(argv[1],"-a"))||(!strcmp(argv[1],"--all"))){
-@@ -48,10 +50,10 @@ static int cmd_expand (int argc,char **a
+@@ -48,10 +48,10 @@
  		}
  		cli_outfun ("expanded all nodes");
  	}
@@ -51,24 +52,20 @@ This prevents the segfault on startup in amd64 systems.
  {
  	Node *pos = (Node *) data;
  	if(argc==1){
-@@ -59,8 +61,8 @@ static int cmd_collapse (int argc,char *
- 			if (lastbinding->key > 31 && lastbinding->key < 255) {	/*  input for buffer */
+@@ -60,7 +60,7 @@
  				inputbuf[strlen (inputbuf) + 1] = 0;
  				inputbuf[strlen (inputbuf)] = lastbinding->key;
--			}		
+ 			}		
 -			return (int)pos;
-+			}
 +			return PTR_TO_UINT64(pos);
  		}
  		node_setflag(pos,F_expanded,0);
  	} else if((!strcmp(argv[1],"-a"))||(!strcmp(argv[1],"--all"))){
-@@ -72,8 +74,8 @@ static int cmd_collapse (int argc,char *
- 		}
+@@ -73,7 +73,7 @@
  		cli_outfun ("collapsed all nodes");
  	}
--	
+ 	
 -	return (int) pos;
-+
 +	return PTR_TO_UINT64(pos);
  }
  

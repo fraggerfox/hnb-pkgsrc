@@ -1,8 +1,9 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
@@ -35,15 +36,6 @@ This prevents the segfault on startup in amd64 systems.
  }
  
  static void htmlcss_export_nodes (FILE * file, Node *node, int level)
-@@ -144,7 +144,7 @@ static void htmlcss_export_nodes (FILE *
- 		indent (level, "\t");
- 		fprintf (file, "<div class=\"level%i\">",level+1);
- 		fprintf (file, "%s", quoted);
--		
-+
- 		free(quoted);
- 
- 
 @@ -162,7 +162,7 @@ static void htmlcss_export_nodes (FILE *
  }
  

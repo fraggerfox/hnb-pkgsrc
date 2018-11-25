@@ -1,8 +1,9 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
@@ -17,15 +18,6 @@ This prevents the segfault on startup in amd64 systems.
  {
  	Tbinding *c;
  	int stop = 0;
-@@ -46,7 +46,7 @@ static int ui_edit_cmd (int argc, char *
- 
- 	memset (input, 0, sizeof (input));
- 
--	if (inputbuf[0]) {			/* there is data in the inputbuffer,.. 
-+	if (inputbuf[0]) {			/* there is data in the inputbuffer,..
- 								   we should not edit, but handle that
- 								   data instead...  this doesn't really belong here,.. but the hack works
- 								 */
 @@ -61,7 +61,7 @@ static int ui_edit_cmd (int argc, char *
  			}
  		}

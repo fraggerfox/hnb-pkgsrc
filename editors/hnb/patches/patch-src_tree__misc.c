@@ -1,8 +1,9 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
@@ -32,32 +33,26 @@ This prevents the segfault on startup in amd64 systems.
  }
  
  /*
-@@ -75,14 +75,14 @@ void init_movenode ()
+@@ -75,12 +75,12 @@
  	cli_add_command ("movenode", cmd_movenode, "<up|left|right|down>");
  }
  
 -static int cmd_go(int argc, char **argv, void *data){
 +static uint64_t cmd_go(int argc, char **argv, void *data){
  	Node *pos=(Node *)data;
--	
-+
+ 	
  	if(argc!=2){
  		cli_outfunf("usage: %s <up|down|left|right|recurse|backrecurse|root|top|bottom>");
 -		return (int)pos;
 +		return PTR_TO_UINT64(pos);
  	}
--	
-+
+ 	
  	if(!strcmp(argv[1],"up")){
- 		if(node_up(pos))
- 			pos=node_up(pos);
-@@ -109,8 +109,8 @@ static int cmd_go(int argc, char **argv,
- 		pos=node_bottom(pos);
+@@ -110,7 +110,7 @@
  	}
  
--	
+ 	
 -	return (int)pos;
-+
 +	return PTR_TO_UINT64(pos);
  }
  
@@ -71,13 +66,11 @@ This prevents the segfault on startup in amd64 systems.
  {
  	Node *pos = (Node *) data;
  
-@@ -134,8 +134,8 @@ static int cmd_outdent (int argc, char *
- 		if (lastbinding->key > 31 && lastbinding->key < 255) {	/*  input for buffer */
+@@ -135,7 +135,7 @@
  			inputbuf[strlen (inputbuf) + 1] = 0;
  			inputbuf[strlen (inputbuf)] = lastbinding->key;
--		}		
+ 		}		
 -		return (int)pos;
-+		}
 +		return PTR_TO_UINT64(pos);
  	}
  
@@ -97,13 +90,11 @@ This prevents the segfault on startup in amd64 systems.
  {
  	Node *pos = (Node *) data;
  
-@@ -179,8 +179,8 @@ static int cmd_indent (int argc, char **
- 		if (lastbinding->key > 31 && lastbinding->key < 255) {	/*  input for buffer */
+@@ -180,7 +180,7 @@
  			inputbuf[strlen (inputbuf) + 1] = 0;
  			inputbuf[strlen (inputbuf)] = lastbinding->key;
--		}		
+ 		}		
 -		return (int)pos;
-+		}
 +		return PTR_TO_UINT64(pos);
  	}
  

@@ -1,8 +1,9 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
@@ -53,15 +54,6 @@ This prevents the segfault on startup in amd64 systems.
  }
  
  
-@@ -338,7 +338,7 @@ char *resolve_binding (int scope, int ac
- }
- 
- 
--/* 
-+/*
-  *	Function to make a keynames returned from curses a little nicer
-  *
-  */
 @@ -395,9 +395,9 @@ char *tidy_keyname (const char *keyname)
  !init_ui_binding();
  */

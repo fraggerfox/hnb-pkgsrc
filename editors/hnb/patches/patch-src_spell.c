@@ -1,22 +1,14 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
 --- src/spell.c.orig	2003-03-09 17:29:01.000000000 +0000
 +++ src/spell.c
-@@ -34,7 +34,7 @@ static char spell_command[255] = "ispell
- #include <fcntl.h>
- 
- /*
-- * this is simplistic approach,.. should perhaps have another one that checks for 
-+ * this is simplistic approach,.. should perhaps have another one that checks for
-  * url/email address substring,.. and launches an app based on that?
-  *
-  */
 @@ -68,7 +68,7 @@ static void spell_node (Node *node)
  		ui_init ();
  }

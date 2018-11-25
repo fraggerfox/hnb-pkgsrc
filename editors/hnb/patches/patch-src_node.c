@@ -1,14 +1,15 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
 --- src/node.c.orig	2003-03-09 17:33:35.000000000 +0000
 +++ src/node.c
-@@ -138,48 +138,48 @@ void node_unset (Node *node, char *name)
+@@ -138,48 +138,48 @@
  #include <stdio.h>
  
  
@@ -22,8 +23,7 @@ This prevents the segfault on startup in amd64 systems.
 -		return (int) pos;
 +		return PTR_TO_UINT64(pos);
  	}
--		
-+
+ 		
  	node_set (pos, argv[1], argv[2]);
 -	return (int) pos;
 +	return PTR_TO_UINT64(pos);
@@ -34,15 +34,13 @@ This prevents the segfault on startup in amd64 systems.
  {
  	Node *pos = (Node *) data;
  	char *cdata;
--	
-+
+ 	
  	if(argc!=2){
  		cli_outfunf("usage: %s <attribute>",argv[0]);
 -		return (int) pos;
 +		return PTR_TO_UINT64(pos);
  	}
--			
-+
+ 			
  	cdata = node_get (pos, argv[1]);
  
  	if (cdata)

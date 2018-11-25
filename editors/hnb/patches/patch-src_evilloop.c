@@ -1,14 +1,15 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
 --- src/evilloop.c.orig	2003-03-14 04:40:35.000000000 +0000
 +++ src/evilloop.c
-@@ -122,10 +122,10 @@ static char *keep_inputbuf[]={
+@@ -122,10 +122,10 @@
  
  int quit_hnb=0;
  
@@ -21,12 +22,3 @@ This prevents the segfault on startup in amd64 systems.
  }
  
  /*
-@@ -193,7 +193,7 @@ Node *evilloop (Node *pos)
- 						} else {
- 							if(node_down(pos))
- 								pos = node_down (pos);
--						}							
-+						}
- 						inputbuf[0] = 0;
- 						break;
- 					}

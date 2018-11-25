@@ -1,14 +1,15 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
 --- src/file.c.orig	2003-03-13 22:55:13.000000000 +0000
 +++ src/file.c
-@@ -150,7 +150,7 @@ int file_check (char *filename)
+@@ -150,7 +150,7 @@
  }
  
  
@@ -17,7 +18,7 @@ This prevents the segfault on startup in amd64 systems.
  {
  	Node *pos = (Node *) data;
  
-@@ -167,10 +167,10 @@ static int cmd_save (int argc,char **arg
+@@ -167,10 +167,10 @@
  			docmd (node_root (pos), buf);
  		}
  	}
@@ -30,12 +31,7 @@ This prevents the segfault on startup in amd64 systems.
  {
  	Node *pos = (Node *) data;
  
-@@ -181,11 +181,11 @@ static int cmd_revert (int argc,char **a
- 			sprintf (buf, "import_%s %s", prefs.format, prefs.db_file);
- 			node_free(pos);
- 			pos=tree_new();
--			
-+
+@@ -185,7 +185,7 @@
  			pos=docmd (pos, buf);
  		}
  	}

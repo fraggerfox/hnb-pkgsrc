@@ -1,29 +1,14 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
 --- src/ui_overlay.c.orig	2003-03-14 00:35:14.000000000 +0000
 +++ src/ui_overlay.c
-@@ -31,12 +31,12 @@
- #include "evilloop.h"
- 
- /*	ui_overlay
--	
-+
- 	current node
- 	dirtyness
--	
-+
- 	scope_no (and thus name and help texts)
--	
-+
- 	status
- 	status_display_counter,..
- */
 @@ -44,11 +44,11 @@
  
  static char *ui_helptext[MAX_SCOPES] = { 0 };

@@ -1,8 +1,9 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
@@ -31,7 +32,7 @@ This prevents the segfault on startup in amd64 systems.
  	if (file != stdout)
  		fclose (file);
 -	return (int) node;
-+	    return PTR_TO_UINT64(node);
++	return PTR_TO_UINT64(node);
  }
  
  /*

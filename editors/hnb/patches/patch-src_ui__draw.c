@@ -1,8 +1,9 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
@@ -35,12 +36,3 @@ This prevents the segfault on startup in amd64 systems.
  }
  
  
-@@ -633,7 +633,7 @@ int display_format_cmd (int argc, char *
-  *                   highlightmode: none, edit_mode: the position in the data
-  *                   that should be highlighted,
-  *                   completion: the number of matched chars in data
-- *                   
-+ *
-  * @param draw_mode  1=draw, 0=test
-  *
-  * @return number of lines needed to draw item

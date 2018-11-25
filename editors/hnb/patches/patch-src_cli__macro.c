@@ -1,28 +1,15 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
 --- src/cli_macro.c.orig	2003-03-09 20:44:27.000000000 +0000
 +++ src/cli_macro.c
-@@ -26,7 +26,7 @@
- #include <ctype.h>
- #include <string.h>
- 
--static void (*precmd_backup) (char *)=NULL;	
-+static void (*precmd_backup) (char *)=NULL;
- 
- typedef struct MacroT{
- 	char *name;
-@@ -76,11 +76,11 @@ static Node *do_macro(MacroT *macro, Nod
- 		pos=docmd(pos,*curcmd);
- 		curcmd++;
- 	}
--	
-+
+@@ -80,7 +80,7 @@
  	return pos;
  }
  
@@ -31,7 +18,7 @@ This prevents the segfault on startup in amd64 systems.
  {
  	Node *pos=(Node *)data;
  	if(argc==1){
-@@ -88,7 +88,7 @@ static int cmd_macro (int argc, char **a
+@@ -88,7 +88,7 @@
  	} else if(argc==2){
  		MacroT *tmacro=lookup_macro(argv[1]);
  		if(tmacro){
@@ -40,7 +27,7 @@ This prevents the segfault on startup in amd64 systems.
  		} else {
  			cli_outfunf("no such macro defined '%s'",argv[1]);
  		}
-@@ -97,7 +97,7 @@ static int cmd_macro (int argc, char **a
+@@ -97,7 +97,7 @@
  		if(!strcmp(argv[1],"define") ){
  			if(lookup_macro(argv[2])){
  				cli_outfunf("error macro %s already exist,.. this might turn out badly,.. " ,argv[2]);
@@ -49,12 +36,8 @@ This prevents the segfault on startup in amd64 systems.
  			} else {
  				MacroT *tmacro;
  				if(!macro){
-@@ -116,10 +116,10 @@ static int cmd_macro (int argc, char **a
- 				precmd_backup=cli_precmd;
- 				cli_precmd=macro_pre_command;
- 			}
--			
-+
+@@ -119,7 +119,7 @@
+ 			
  		}
  	}
 -	return (int) pos;

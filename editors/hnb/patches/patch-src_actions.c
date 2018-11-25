@@ -1,14 +1,15 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
 --- src/actions.c.orig	2003-03-14 01:06:36.000000000 +0000
 +++ src/actions.c
-@@ -32,17 +32,17 @@ static char address[1024]="";*/
+@@ -32,7 +32,7 @@
  static char web_command[255] = "galeon -n *";
  static char mail_command[255] = "rxvt -rv +sb -e mutt *";
  
@@ -17,10 +18,7 @@ This prevents the segfault on startup in amd64 systems.
  	Node *pos=(Node *)data;
  	int ui_was_inited = ui_inited;
  	if (argc>1) {
- 		if (ui_was_inited)
--			ui_end ();			
-+			ui_end ();
- 		system (argv[1]);
+@@ -42,7 +42,7 @@
  		if (ui_was_inited)
  			ui_init ();
  	}
@@ -29,12 +27,7 @@ This prevents the segfault on startup in amd64 systems.
  }
  
  static int action_node (Node *node)
-@@ -132,25 +132,25 @@ static int action_node (Node *node)
- }
- 
- /*
-- * this is simplistic approach,.. should perhaps have another one that checks for 
-+ * this is simplistic approach,.. should perhaps have another one that checks for
+@@ -136,21 +136,21 @@
   * url/email address substring,.. and launches an app based on that?
   *
   */

@@ -6,9 +6,11 @@ bufsize to 4096, which leads to a parser error.
 
 Above fix made by rilling on 2005/03/11
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
+3. Replaced (32bit) int references with proper Node * references.
 
 This prevents the segfault on startup in amd64 systems.
 
@@ -64,7 +66,7 @@ This prevents the segfault on startup in amd64 systems.
  	}
  
  	if (node_right (tnode)) {
-@@ -95,32 +96,32 @@ static int addc (int argc,char **argv, v
+@@ -95,30 +95,30 @@
  	else
  		node_set (tnode, TEXT, argv[2]);
  
@@ -99,11 +101,8 @@ This prevents the segfault on startup in amd64 systems.
 -			return (int) (node_left (tnode));
 +			return PTR_TO_UINT64((node_left (tnode)));
  	}
--		
-+
+ 		
  
- 	tnode = path2node (argv[1], pos);
- 	if (tnode) {
 @@ -128,11 +129,11 @@ static int cd (int argc, char **argv, vo
  	}
  	if (!tnode) {
@@ -128,15 +127,6 @@ This prevents the segfault on startup in amd64 systems.
  {
  	Node *pos = (Node *) data;
  
-@@ -177,7 +178,7 @@ static int ls (int argc, char **argv, vo
- 		indicate_sub?
- 		node_right(tnode)?"(..)":""
- 		:"", tnode==pos?"<":""
--		
-+
- 		);
- 
- 		if (recurse) {
 @@ -188,7 +189,7 @@ static int ls (int argc, char **argv, vo
  			tnode = node_down (tnode);
  		}
@@ -146,7 +136,7 @@ This prevents the segfault on startup in amd64 systems.
  }
  
  /*
-@@ -216,18 +217,19 @@ void init_ui_cli (void)
+@@ -216,11 +216,12 @@
  
  Node *docmd (Node *pos, const char *commandline)
  {
@@ -161,11 +151,3 @@ This prevents the segfault on startup in amd64 systems.
  	return (Node *) ret;
  }
  
- Node *docmdf (Node *pos,char *format, ...){
- 	va_list arglist;
- 	char buf[128];
--	
-+
- 	va_start( arglist, format );
- 	vsnprintf(buf,127,format,arglist);
- 	va_end(arglist);

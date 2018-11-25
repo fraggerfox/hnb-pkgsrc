@@ -1,8 +1,9 @@
 $NetBSD$
 
-1. Replaced int with uint64_t.
-2. Replaced pointer to int type cast with a macro to help
-   convert the pointer to uint64_t.
+1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
+   int by using a wider type.
+2. Replaced pointer to int type cast with a macro PTR_TO_UINT64(x) to
+   help convert the pointer to uint64_t.
 
 This prevents the segfault on startup in amd64 systems.
 
@@ -17,7 +18,7 @@ This prevents the segfault on startup in amd64 systems.
  {
  	Node *node = (Node *) data;
  	char *filename = argc==2?argv[1]:"";
-@@ -46,7 +46,7 @@ static int import_ascii (int argc, char 
+@@ -46,7 +46,7 @@
  	file = fopen (filename, "r");
  	if (file == NULL) {
  		cli_outfunf ("ascii import, unable to open \"%s\"", filename);
@@ -26,7 +27,7 @@ This prevents the segfault on startup in amd64 systems.
  	}
  
  	init_import (&ist, node);
-@@ -73,7 +73,7 @@ static int import_ascii (int argc, char 
+@@ -73,7 +73,7 @@
  	cli_outfunf ("ascii import, imported \"%s\"", filename);
  
  
@@ -35,7 +36,7 @@ This prevents the segfault on startup in amd64 systems.
  }
  
  static void ascii_export_node (FILE * file, int level, int flags, char *data)
-@@ -95,7 +95,7 @@ static void ascii_export_node (FILE * fi
+@@ -95,7 +95,7 @@
  	}
  }
  
@@ -44,7 +45,7 @@ This prevents the segfault on startup in amd64 systems.
  {
  	Node *node = (Node *) data;
  	char *filename = argc==2?argv[1]:"";
-@@ -110,7 +110,7 @@ static int export_ascii (int argc, char 
+@@ -110,7 +110,7 @@
  		file = fopen (filename, "w");
  	if (!file) {
  		cli_outfunf ("ascii export, unable to open \"%s\"", filename);
@@ -53,7 +54,7 @@ This prevents the segfault on startup in amd64 systems.
  	}
  	startlevel = nodes_left (node);
  
-@@ -130,7 +130,7 @@ static int export_ascii (int argc, char 
+@@ -130,7 +130,7 @@
  
  	cli_outfunf ("ascii export, wrote output to \"%s\"", filename);
  

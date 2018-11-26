@@ -1,7 +1,7 @@
 hnb-pkgsrc
 ==========
 
-NetBSD pkgsrc script for Hierarchical Notebook (hnb)
+NetBSD [pkgsrc][3] script for Hierarchical Notebook (hnb)
 
 You can find Hierarchical Notebook (hnb) [here][1]
 
@@ -45,3 +45,4 @@ BSD 2-clause. See LICENSE.
 
 [1]: http://hnb.sourceforge.net/
 [2]: http://hnb.sourceforge.net/Documentation/
+[3]: http://pkgsrc.se/editors/hnb

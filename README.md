@@ -34,8 +34,9 @@ Credits
 
 * Hierarchical Notebook (hnb) was originally written by `Øyvind Kolås`
 * The original pkgsrc script was written by `jmmv@NetBSD.org`
-* Thanks to `coypu` for reviewing and suggesting fixes / changes to conform to
-  standardized `Makefile`.
+* Thanks to `@coypoop` for reviewing and suggesting fixes / changes to conform to
+  standardized `Makefile` and patch files.
+* Thanks to `@ppaeps` for helping me debug the amd64 crashes.
 
 License
 -------

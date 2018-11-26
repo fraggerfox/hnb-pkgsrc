@@ -1,4 +1,4 @@
-$NetBSD$
+$NetBSD: patch-src_ui__cli.c,v 1.1 2018/11/26 09:15:53 fox Exp $
 
 In NetBSD-1.6.2, the <stdlib.h> header uses the word bufsize as a
 parameter name in a function prototype. The "file.h" header #defines

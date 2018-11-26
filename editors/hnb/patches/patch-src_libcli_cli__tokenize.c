@@ -1,4 +1,4 @@
-$NetBSD$
+$NetBSD: patch-src_libcli_cli__tokenize.c,v 1.1 2018/11/26 09:15:53 fox Exp $
 
 Replaced char * with unsigned char * since this is how the function
 is used, also prevents compiler from spweing out warnings.

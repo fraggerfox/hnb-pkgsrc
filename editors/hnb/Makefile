@@ -1,4 +1,4 @@
-# $NetBSD$
+# $NetBSD: Makefile,v 1.28 2018/11/26 09:15:53 fox Exp $
 #
 
 DISTNAME=	hnb-1.9.17

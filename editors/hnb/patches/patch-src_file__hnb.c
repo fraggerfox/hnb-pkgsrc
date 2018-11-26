@@ -1,4 +1,4 @@
-$NetBSD$
+$NetBSD: patch-src_file__hnb.c,v 1.1 2018/11/26 09:15:53 fox Exp $
 
 1. Replaced int with uint64_t.
 2. Replaced pointer to int type cast with a macro to help

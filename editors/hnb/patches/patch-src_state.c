@@ -1,4 +1,4 @@
-$NetBSD$
+$NetBSD: patch-src_state.c,v 1.1 2018/11/26 09:15:53 fox Exp $
 
 1. Replaced int with uint64_t to avoid truncating pointer to (32bit)
    int by using a wider type.

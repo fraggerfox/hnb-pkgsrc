@@ -3,7 +3,8 @@ hnb-pkgsrc
 
 NetBSD [pkgsrc][3] script for Hierarchical Notebook (hnb)
 
-You can find Hierarchical Notebook (hnb) [here][1]
+You can find Hierarchical Notebook (hnb) [here][1], a fixed version of hnb that
+runs on amd64 can be found [here][4].
 
 NOTE: This is not a new package, but is a fixed version of the package that can
 run in both i386 and amd64
@@ -46,3 +47,4 @@ BSD 2-clause. See LICENSE.
 [1]: http://hnb.sourceforge.net/
 [2]: http://hnb.sourceforge.net/Documentation/
 [3]: http://pkgsrc.se/editors/hnb
+[4]: https://github.com/fraggerfox/hnb

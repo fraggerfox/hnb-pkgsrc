@@ -1,4 +1,4 @@
-# $NetBSD: Makefile,v 1.28 2018/11/26 09:15:53 fox Exp $
+# $NetBSD: Makefile,v 1.29 2019/10/19 14:10:45 fox Exp $
 
 DISTNAME=	hnb-1.9.18
 CATEGORIES=	editors
